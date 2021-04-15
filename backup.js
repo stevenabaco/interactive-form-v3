@@ -80,6 +80,7 @@ activitiesFieldset.addEventListener('change', e => {
 	let activityCost = +e.target.dataset.cost;
 
 	// Add conditions to add or remove cost and render total amount
+	let totalCost = 0;
 	if (e.target.checked) {
 		totalCost += activityCost;
 		activitiesTotalCost.textContent = `Total: $${totalCost}`;
@@ -95,7 +96,6 @@ activitiesFieldset.addEventListener('change', e => {
 
 // Auto select Credit Card option as default
 paymentType[1].selected = true;
-infoCreditCard.style.display = 'block';
 
 // Auto hide Paypal and Bitcoin information until each option is selected
 infoBitcoin.style.display = 'none';
@@ -132,7 +132,7 @@ function validated(e) {
 }
 
 function notValidated(e) {
-	// Add error messages and alers
+	// Add error messages and alerts
 	e.parentElement.classList.add('not-valid');
 	e.parentElement.classList.remove('valid');
 	e.parentElement.lastElementChild.style.display = 'block';
@@ -181,7 +181,7 @@ function isActivitySelected() {
 	return activitySelected;
 }
 
-// CREDIT CARD VALIDATION //
+// CREDIT CARD VALIDATION
 
 // Add event listener to check realtime input validation
 inputCreditCard.addEventListener('input', () => {
@@ -203,51 +203,54 @@ function isCreditCardValid() {
 }
 
 // Add event Listener for real time validation of "Zip Code" input
-inputZip.addEventListener('input', () => {
-	isZipValid();
-})
+inputZip.addEventListener('input', e => {
+	isZipValid(e);
+});
 // Check "Zip Code" field has only 5 digits
 function isZipValid() {
 	const regexZip = /^\d{5}$/.test(inputZip.value);
 	if (!regexZip || inputZip.value === null) {
 		notValidated(inputZip);
-	} else { 
+	} else {
 		validated(inputZip);
 	}
 	return regexZip;
 }
+
 // Add event Listener for real time validation of "CVV" input
-inputCVV.addEventListener('input', () => {
-	isCVVValid();
-})
+inputZip.addEventListener('input', e => {
+	isCVVValid(e);
+});
 // Check "CVV" field has only 3 digits
 function isCVVValid() {
 	const regexCVV = /^\d{3}$/.test(inputCVV.value);
-	if (!regexCVV || inputCVV.value === null) {
+	if (!regexZip || inputCVV.value === null) {
 		notValidated(inputCVV);
-	} else { 
+	} else {
 		validated(inputCVV);
 	}
 	return regexCVV;
 }
 
-// FINAL FORM SUBMIT VALIDATION //
+// FINAL FORM SUBMIT VALIDATION
 
 // Get selected payment option
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', e => {
 	// Execute validation helper functions on all changes
 	isNameValid();
 	isEmailValid();
 	isActivitySelected();
 	isCreditCardValid();
 	isZipValid();
+	isCVVValid();
 	// Prevent button default if any fields fail validation
 	if (
 		!isNameValid() ||
 		!isEmailValid() ||
 		!isActivitySelected() ||
 		!isCreditCardValid() ||
-		!isZipValid()
+		!isZipValid() ||
+		!isCVVValid()
 	) {
 		e.preventDefault();
 	}
