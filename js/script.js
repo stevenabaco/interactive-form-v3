@@ -24,8 +24,8 @@ const activitiesLegend = document.getElementsByTagName('legend');
 // const inputCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 
 // Payment Info Elements
-const paymentType = document.getElementById('payment');
-const infoCreditCard = document.getElementById('credit-card');
+const paymentSelect = document.getElementById('payment');
+const creditCardInfo = document.getElementById('credit-card');
 const inputCreditCard = document.getElementById('cc-num');
 const inputZip = document.getElementById('zip');
 const inputCVV = document.getElementById('cvv');
@@ -41,9 +41,9 @@ window.addEventListener('load', () => {
 	// Disable color selection until after a Design is selected
 	selectColor.disabled = true;
 	// Auto select Credit Card option as default
-	paymentType[1].selected = true;
+	paymentSelect[1].selected = true;
 	// Auto hide Paypal and Bitcoin information until selected
-	infoCreditCard.style.display = 'block';
+	creditCardInfo.style.display = 'block';
 	infoBitcoin.style.display = 'none';
 	infoPaypal.style.display = 'none';
 	// Set max number of characters for CVV field to 3
@@ -140,18 +140,17 @@ activitiesFieldset.addEventListener('change', e => {
  ************************/
 
 // Show only Bitcoin or Paypal info if Selected
-paymentType.addEventListener('change', e => {
-	console.log(e.target.value);
+paymentSelect.addEventListener('change', e => {
 	if (e.target.value === 'paypal') {
-		infoCreditCard.style.display = 'none';
+		creditCardInfo.style.display = 'none';
 		infoBitcoin.style.display = 'none';
 		infoPaypal.style.display = 'block';
 	} else if (e.target.value === 'bitcoin') {
-		infoCreditCard.style.display = 'none';
+		creditCardInfo.style.display = 'none';
 		infoBitcoin.style.display = 'block';
 		infoPaypal.style.display = 'none';
 	} else if (e.target.value === 'credit-card') {
-		infoCreditCard.style.display = 'block';
+		creditCardInfo.style.display = 'block';
 		infoBitcoin.style.display = 'none';
 		infoPaypal.style.display = 'none';
 	}
@@ -252,7 +251,7 @@ inputCreditCard.addEventListener('input', () => {
 function isCreditCardValid() {
 	let isValid = true;
 	const regexName = /^\d{13,16}$/.test(inputCreditCard.value);
-	if (paymentType[1].selected = true) {
+	if ((paymentSelect[1].selected === true)) {
 		if (!regexName) {
 			notValidated(inputCreditCard);
 			isValid = false;
@@ -326,7 +325,7 @@ for (let i = 0; i < activitiesCheckbox.length; i++) {
 // Get selected payment option
 form.addEventListener('submit', e => {
 	let validated = true;
-	
+
 	// Execute validation helper functions on all changes
 	isNameValid();
 	isEmailValid();
@@ -334,7 +333,6 @@ form.addEventListener('submit', e => {
 	isCreditCardValid();
 	isZipValid();
 	isCVVValid();
-
 
 	// Prevent button default if any fields fail validation
 	if (
@@ -356,17 +354,18 @@ form.addEventListener('submit', e => {
 		isZipValid() &&
 		isCVVValid();
 
-	if (validated) { // refresh the screen automatically if all validations passed
+	if (validated) {
+		// refresh the screen automatically if all validations passed
 		setTimeout(() => {
 			window.location.reload();
-		}, 15);
+		}, 10);
 	}
 
 	// Console log for development testing only (Remove for Production)
-	console.log("Name Valid : ", isNameValid());
-	console.log("Email Valid : ", isEmailValid());
-	console.log("Activity Valid : ", isActivitySelected());
-	console.log("Credit Card Valid : ", isCreditCardValid());
-	console.log("Zip Valid : ", isZipValid());
-	console.log("CVV Valid : ", isCVVValid());
+	console.log('Name Valid : ', isNameValid());
+	console.log('Email Valid : ', isEmailValid());
+	console.log('Activity Valid : ', isActivitySelected());
+	console.log('Credit Card Valid : ', isCreditCardValid());
+	console.log('Zip Valid : ', isZipValid());
+	console.log('CVV Valid : ', isCVVValid());
 });
