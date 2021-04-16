@@ -348,7 +348,7 @@ form.addEventListener('submit', e => {
 		e.preventDefault();
 	}
 
-	validated =
+	validated = // check if all validation checks passed
 		isNameValid() &&
 		isEmailValid() &&
 		isActivitySelected() &&
@@ -356,7 +356,7 @@ form.addEventListener('submit', e => {
 		isZipValid() &&
 		isCVVValid();
 
-	if (validated) {
+	if (validated) { // refresh the screen automatically if all validations passed
 		setTimeout(() => {
 			window.location.reload();
 		}, 15);
