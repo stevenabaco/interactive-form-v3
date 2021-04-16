@@ -14,11 +14,14 @@ const selectDesign = document.getElementById('design');
 const selectColor = document.getElementById('color');
 const colorOptions = selectColor.getElementsByTagName('option');
 
-// Register for Activities Elements
+// Activities Elements
 const activitiesFieldset = document.getElementById('activities');
 const activitiesBox = document.getElementById('activities-box');
-const activities = document.querySelectorAll('#activities input');
+const activitiesCheckboxInput = document.querySelectorAll('#activities input');
 const activitiesTotalCost = document.getElementById('activities-cost');
+const activitiesLegend = document.getElementsByTagName('legend');
+
+// const inputCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 
 // Payment Info Elements
 const paymentType = document.getElementById('payment');
@@ -83,10 +86,11 @@ activitiesFieldset.addEventListener('change', e => {
 	if (e.target.checked) {
 		totalCost += activityCost;
 		activitiesTotalCost.textContent = `Total: $${totalCost}`;
-	} else {
+	} else if (!e.target.checked) {
 		totalCost -= activityCost;
 		activitiesTotalCost.textContent = `Total: $${totalCost}`;
-	}
+	} 
+	isActivitySelected();
 });
 
 /************************
@@ -138,8 +142,23 @@ function notValidated(e) {
 	e.parentElement.lastElementChild.style.display = 'block';
 }
 
-// Check Validation for Name input (Realtime Validation)
+function activitiesValidated() {
+	// Use just for activities
+	// Remove error messages and alerts
+	activitiesLegend[2].classList.add('valid');
+	activitiesLegend[2].classList.remove('not-valid');
+	e.parentElement.lastElementChild.style.display = 'none';
+}
 
+function activitiesNotValidated(e) {
+	//Use just for activities
+	// Add error messages and alerts
+	activitiesLegend[2].classList.add('not-valid');
+	activitiesLegend[2].classList.remove('valid');
+	e.parentElement.lastElementChild.style.display = 'block';
+}
+
+// Check Validation for Name input (Realtime Validation)
 inputName.addEventListener('input', () => {
 	isNameValid();
 });
@@ -171,12 +190,17 @@ function isEmailValid() {
 
 // Check Validation for Activities to have at least one checked
 // If total cost of activities is greater than 0 an activity has been selected.
+
+// activitiesTotalCost.addEventListener('change', () => {
+// 	isActivitySelected();
+// });
+
 let activitySelected = totalCost > 0;
 function isActivitySelected() {
 	if (!totalCost) {
-		notValidated(activitiesBox);
+		activitiesNotValidated(activitiesBox);
 	} else {
-		validated(activitiesBox);
+		activitiesValidated(activitiesBox);
 	}
 	return activitySelected;
 }
@@ -205,13 +229,13 @@ function isCreditCardValid() {
 // Add event Listener for real time validation of "Zip Code" input
 inputZip.addEventListener('input', () => {
 	isZipValid();
-})
+});
 // Check "Zip Code" field has only 5 digits
 function isZipValid() {
 	const regexZip = /^\d{5}$/.test(inputZip.value);
 	if (!regexZip || inputZip.value === null) {
 		notValidated(inputZip);
-	} else { 
+	} else {
 		validated(inputZip);
 	}
 	return regexZip;
@@ -219,28 +243,53 @@ function isZipValid() {
 // Add event Listener for real time validation of "CVV" input
 inputCVV.addEventListener('input', () => {
 	isCVVValid();
-})
+});
 // Check "CVV" field has only 3 digits
 function isCVVValid() {
 	const regexCVV = /^\d{3}$/.test(inputCVV.value);
 	if (!regexCVV || inputCVV.value === null) {
 		notValidated(inputCVV);
-	} else { 
+	} else {
 		validated(inputCVV);
 	}
 	return regexCVV;
 }
 
-// FINAL FORM SUBMIT VALIDATION //
+/*****************
+ * ACCESSIBILITY *
+ *****************/
+
+/*
+ * Add listener for focus and blur on checkboxes
+ * to apply focus class on parent elment
+ */
+
+// Loop through all input checkboxes
+for (let i = 0; i < activitiesCheckboxInput.length; i++) {
+	const input = activitiesCheckboxInput[i];
+	input.addEventListener('focus', () => {
+		// Apply "focus" class when element is in focus
+		input.parentElement.classList.add('focus');
+	});
+	input.addEventListener('blur', () => {
+		// Remove "focus" class on blur
+		input.parentElement.classList.remove('focus');
+	});
+}
+
+/********************************
+ * FINAL FORM SUBMIT VALIDATION *
+ ********************************/
 
 // Get selected payment option
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', e => {
 	// Execute validation helper functions on all changes
 	isNameValid();
 	isEmailValid();
 	isActivitySelected();
 	isCreditCardValid();
 	isZipValid();
+	isCVVValid();
 	// Prevent button default if any fields fail validation
 	if (
 		!isNameValid() ||
