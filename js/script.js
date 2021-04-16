@@ -32,7 +32,10 @@ const inputCVV = document.getElementById('cvv');
 const infoBitcoin = document.getElementById('bitcoin');
 const infoPaypal = document.getElementById('paypal');
 
-// Assign default options and settings on page load
+/************************************************
+ * SET DEFAULT OPTIONS AND SETTING ON PAGE LOAD *
+ ************************************************/
+
 window.addEventListener('load', () => {
 	//Set focus on Name field
 	inputName.focus();
@@ -72,7 +75,7 @@ selectJobRole.addEventListener('change', e => {
  * T - SHIRT SECTION *
  *********************/
 
-// Event listener for Design selector changes
+// Event listener for T-Shirt Info changes
 selectDesign.addEventListener('change', e => {
 	//Enable color selection after Design is selected
 	selectColor.disabled = false;
@@ -160,7 +163,7 @@ paymentSelect.addEventListener('change', e => {
  * FORM VALIDATION SECTION *
  ***************************/
 
-// Helper Functions
+// ** GENERAL FORM VALIDATION ** HELPER FUNCTIONS
 
 function validated(e) {
 	// Remove error messages and alerts
@@ -175,9 +178,9 @@ function notValidated(e) {
 	e.parentElement.classList.remove('valid');
 	e.parentElement.lastElementChild.style.display = 'block';
 }
+// ** ACTIVITIES SECTION ONLY ** HELPER FUNCTIONS
 
 function activitiesValidated(e) {
-	// Use just for activities
 	// Remove error messages and alerts
 	activitiesLegend[2].classList.add('valid');
 	activitiesLegend[2].classList.remove('not-valid');
@@ -185,17 +188,13 @@ function activitiesValidated(e) {
 }
 
 function activitiesNotValidated(e) {
-	//Use just for activities
 	// Add error messages and alerts
 	activitiesLegend[2].classList.add('not-valid');
 	activitiesLegend[2].classList.remove('valid');
 	e.parentElement.lastElementChild.style.display = 'block';
 }
 
-// Check Validation for Name input (Realtime Validation)
-inputName.addEventListener('input', () => {
-	isNameValid();
-});
+// ** NAME VALIDATION ** HELPER FUNCTION
 
 function isNameValid() {
 	const regexName = /\w/i.test(inputName.value);
@@ -207,10 +206,7 @@ function isNameValid() {
 	return regexName;
 }
 
-// Check Validation for Email input (Realtime Validation)
-inputEmail.addEventListener('input', () => {
-	isEmailValid();
-});
+// ** EMAIL VALIDATION ** HELPER FUNCTION
 
 function isEmailValid() {
 	const regexName = /^[^@]+@[^@]+\.[a-z]+$/i.test(inputEmail.value);
@@ -222,12 +218,8 @@ function isEmailValid() {
 	return regexName;
 }
 
-// Check Validation for Activities to have at least one checked
+// ** ACTIVITIES VALIDATION ** HELPER FUNCTION
 // If total cost of activities is greater than 0 an activity has been selected.
-
-// activitiesTotalCost.addEventListener('change', () => {
-// 	isActivitySelected();
-// });
 
 let activitySelected = false;
 function isActivitySelected() {
@@ -241,17 +233,13 @@ function isActivitySelected() {
 	return activitySelected;
 }
 
-// CREDIT CARD VALIDATION //
-
-// Add event listener to check realtime input validation
-inputCreditCard.addEventListener('input', () => {
-	isCreditCardValid();
-});
+// ** CREDIT CARD VALIDATION ** HELPER FUNCTION
 // Check Credit Card number validation only if Credit Card option selected
+
 function isCreditCardValid() {
 	let isValid = true;
 	const regexName = /^\d{13,16}$/.test(inputCreditCard.value);
-	if ((paymentSelect[1].selected === true)) {
+	if (paymentSelect[1].selected === true) {
 		if (!regexName) {
 			notValidated(inputCreditCard);
 			isValid = false;
@@ -266,11 +254,9 @@ function isCreditCardValid() {
 	return isValid;
 }
 
-// Add event Listener for real time validation of "Zip Code" input
-inputZip.addEventListener('input', () => {
-	isZipValid();
-});
+//** ZIP CODE VALIDATION ** HELPER FUNCTION */
 // Check "Zip Code" field has only 5 digits
+
 function isZipValid() {
 	const regexZip = /^\d{5}$/.test(inputZip.value);
 	if (!regexZip || inputZip.value === null) {
@@ -280,10 +266,8 @@ function isZipValid() {
 	}
 	return regexZip;
 }
-// Add event Listener for real time validation of "CVV" input
-inputCVV.addEventListener('input', () => {
-	isCVVValid();
-});
+
+//** CCV VALIATION ** HELPER FUNCTION */
 // Check "CVV" field has 3 digits
 function isCVVValid() {
 	const regexCVV = /^\d{3}$/.test(inputCVV.value);
@@ -294,7 +278,45 @@ function isCVVValid() {
 	}
 	return regexCVV;
 }
-// Set max length on CVV field to three
+
+/*****************************************************
+ * SET EVENT LISTENERS FOR REAL TIME FORM VALIDATION *
+ *****************************************************/
+
+// Set realtime input validation for NAME
+
+inputName.addEventListener('input', () => {
+	isNameValid();
+});
+
+// Set realtime input validation for EMAIL
+
+inputEmail.addEventListener('input', () => {
+	isEmailValid();
+});
+
+// Set realtime input validation for ACTIONS
+// Check validation for Activities to have at least one checked
+
+activitiesTotalCost.addEventListener('change', () => {
+	isActivitySelected();
+});
+
+// Set realtime input validation for CREDIT CARD
+
+inputCreditCard.addEventListener('input', () => {
+	isCreditCardValid();
+});
+
+// Set realtime input validation for ZIP CODE
+inputZip.addEventListener('input', () => {
+	isZipValid();
+});
+
+// Sest realtime input validation for CVV
+inputCVV.addEventListener('input', () => {
+	isCVVValid();
+});
 
 /*****************
  * ACCESSIBILITY *
