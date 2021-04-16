@@ -17,7 +17,7 @@ const colorOptions = selectColor.getElementsByTagName('option');
 // Activities Elements
 const activitiesFieldset = document.getElementById('activities');
 const activitiesBox = document.getElementById('activities-box');
-const activitiesCheckboxInput = document.querySelectorAll('#activities input');
+const activitiesCheckbox = document.querySelectorAll('#activities input');
 const activitiesTotalCost = document.getElementById('activities-cost');
 const activitiesLegend = document.getElementsByTagName('legend');
 
@@ -32,13 +32,34 @@ const inputCVV = document.getElementById('cvv');
 const infoBitcoin = document.getElementById('bitcoin');
 const infoPaypal = document.getElementById('paypal');
 
-//BASIC INFO SECTION
+// Assign default options and settings on page load
+window.addEventListener('load', () => {
+	//Set focus on Name field
+	inputName.focus();
+	// Hide other job role input
+	inputOtherJobRole.style.visibility = 'hidden';
+	// Disable color selection until after a Design is selected
+	selectColor.disabled = true;
+	// Auto select Credit Card option as default
+	paymentType[1].selected = true;
+	// Auto hide Paypal and Bitcoin information until selected
+	infoCreditCard.style.display = 'block';
+	infoBitcoin.style.display = 'none';
+	infoPaypal.style.display = 'none';
+	// Set max number of characters for CVV field to 3
+	inputCVV.setAttribute('maxLength', 3);
+	// Set max number of characters for ZIP field to 5
+	inputZip.setAttribute('maxLength', 5);
+	// Set max number of characters for Credit Card input to 16
+	inputCreditCard.setAttribute('maxLength', 16);
+});
 
-//Set focus on Name field
-inputName.focus();
+/*********************
+ * BASIC INFO SECTION *
+ *********************/
 
-// Hide Other Job Role input until selected by user
-inputOtherJobRole.style.visibility = 'hidden';
+// Event Listener to toggle Other Role input field on request
+
 selectJobRole.addEventListener('change', e => {
 	if (e.target.value === 'other') {
 		inputOtherJobRole.style.visibility = 'visible';
@@ -51,10 +72,7 @@ selectJobRole.addEventListener('change', e => {
  * T - SHIRT SECTION *
  *********************/
 
-// Disable color selection until after a Design is selected
-selectColor.disabled = true;
-
-//Add a change event listener to Design selector
+// Event listener for Design selector changes
 selectDesign.addEventListener('change', e => {
 	//Enable color selection after Design is selected
 	selectColor.disabled = false;
@@ -80,16 +98,40 @@ let totalCost = 0; // Set variable to hold total cost
 
 // Add change event listener on activities fieldset
 activitiesFieldset.addEventListener('change', e => {
-	let activityCost = +e.target.dataset.cost;
+	const selectedActivity = e.target;
+	const selectedActivityCost = +e.target.dataset.cost;
+	const selectedActivityTime = e.target.dataset.dayAndTime;
+	const selectedActivityName = e.target.getAttribute('name');
+
+	for (let i = 0; i < activitiesCheckbox.length; i++) {
+		const activity = activitiesCheckbox[i];
+		const activityName = activity.getAttribute('name');
+		const activityTime = activity.dataset.dayAndTime;
+
+		// Do not include selected activity
+		if (selectedActivityName != activityName) {
+			// Check for any time conflicts with other activities
+			if (selectedActivityTime === activityTime) {
+				// Dynamic handling of diabling conflicts
+				if (selectedActivity.checked) {
+					activity.disabled = true;
+					activity.parentElement.classList.add('disabled');
+				} else {
+					activity.disabled = false;
+					activity.parentElement.classList.remove('disabled');
+				}
+			}
+		}
+	}
 
 	// Add conditions to add or remove cost and render total amount
 	if (e.target.checked) {
-		totalCost += activityCost;
+		totalCost += selectedActivityCost;
 		activitiesTotalCost.textContent = `Total: $${totalCost}`;
 	} else if (!e.target.checked) {
-		totalCost -= activityCost;
+		totalCost -= selectedActivityCost;
 		activitiesTotalCost.textContent = `Total: $${totalCost}`;
-	} 
+	}
 	isActivitySelected();
 });
 
@@ -97,16 +139,9 @@ activitiesFieldset.addEventListener('change', e => {
  * PAYMENT INFO SECTION *
  ************************/
 
-// Auto select Credit Card option as default
-paymentType[1].selected = true;
-infoCreditCard.style.display = 'block';
-
-// Auto hide Paypal and Bitcoin information until each option is selected
-infoBitcoin.style.display = 'none';
-infoPaypal.style.display = 'none';
-
 // Show only Bitcoin or Paypal info if Selected
 paymentType.addEventListener('change', e => {
+	console.log(e.target.value);
 	if (e.target.value === 'paypal') {
 		infoCreditCard.style.display = 'none';
 		infoBitcoin.style.display = 'none';
@@ -115,7 +150,7 @@ paymentType.addEventListener('change', e => {
 		infoCreditCard.style.display = 'none';
 		infoBitcoin.style.display = 'block';
 		infoPaypal.style.display = 'none';
-	} else {
+	} else if (e.target.value === 'credit-card') {
 		infoCreditCard.style.display = 'block';
 		infoBitcoin.style.display = 'none';
 		infoPaypal.style.display = 'none';
@@ -142,7 +177,7 @@ function notValidated(e) {
 	e.parentElement.lastElementChild.style.display = 'block';
 }
 
-function activitiesValidated() {
+function activitiesValidated(e) {
 	// Use just for activities
 	// Remove error messages and alerts
 	activitiesLegend[2].classList.add('valid');
@@ -195,12 +230,14 @@ function isEmailValid() {
 // 	isActivitySelected();
 // });
 
-let activitySelected = totalCost > 0;
+let activitySelected = false;
 function isActivitySelected() {
 	if (!totalCost) {
 		activitiesNotValidated(activitiesBox);
+		activitySelected = false;
 	} else {
 		activitiesValidated(activitiesBox);
+		activitySelected = true;
 	}
 	return activitySelected;
 }
@@ -213,17 +250,21 @@ inputCreditCard.addEventListener('input', () => {
 });
 // Check Credit Card number validation only if Credit Card option selected
 function isCreditCardValid() {
+	let isValid = true;
 	const regexName = /^\d{13,16}$/.test(inputCreditCard.value);
-	if ((paymentType[1].selected = true)) {
+	if (paymentType[1].selected = true) {
 		if (!regexName) {
 			notValidated(inputCreditCard);
+			isValid = false;
 		} else if (inputCreditCard.value === null) {
 			notValidated(inputCreditCard);
+			isValid = false;
 		} else {
 			validated(inputCreditCard);
+			isValid = true;
 		}
 	}
-	return regexName;
+	return isValid;
 }
 
 // Add event Listener for real time validation of "Zip Code" input
@@ -244,7 +285,7 @@ function isZipValid() {
 inputCVV.addEventListener('input', () => {
 	isCVVValid();
 });
-// Check "CVV" field has only 3 digits
+// Check "CVV" field has 3 digits
 function isCVVValid() {
 	const regexCVV = /^\d{3}$/.test(inputCVV.value);
 	if (!regexCVV || inputCVV.value === null) {
@@ -254,6 +295,7 @@ function isCVVValid() {
 	}
 	return regexCVV;
 }
+// Set max length on CVV field to three
 
 /*****************
  * ACCESSIBILITY *
@@ -265,8 +307,8 @@ function isCVVValid() {
  */
 
 // Loop through all input checkboxes
-for (let i = 0; i < activitiesCheckboxInput.length; i++) {
-	const input = activitiesCheckboxInput[i];
+for (let i = 0; i < activitiesCheckbox.length; i++) {
+	const input = activitiesCheckbox[i];
 	input.addEventListener('focus', () => {
 		// Apply "focus" class when element is in focus
 		input.parentElement.classList.add('focus');
@@ -283,6 +325,8 @@ for (let i = 0; i < activitiesCheckboxInput.length; i++) {
 
 // Get selected payment option
 form.addEventListener('submit', e => {
+	let validated = true;
+	
 	// Execute validation helper functions on all changes
 	isNameValid();
 	isEmailValid();
@@ -290,14 +334,39 @@ form.addEventListener('submit', e => {
 	isCreditCardValid();
 	isZipValid();
 	isCVVValid();
+
+
 	// Prevent button default if any fields fail validation
 	if (
 		!isNameValid() ||
 		!isEmailValid() ||
 		!isActivitySelected() ||
 		!isCreditCardValid() ||
-		!isZipValid()
+		!isZipValid() ||
+		!isCVVValid()
 	) {
 		e.preventDefault();
 	}
+
+	validated =
+		isNameValid() &&
+		isEmailValid() &&
+		isActivitySelected() &&
+		isCreditCardValid() &&
+		isZipValid() &&
+		isCVVValid();
+
+	if (validated) {
+		setTimeout(() => {
+			window.location.reload();
+		}, 15);
+	}
+
+	// Console log for development testing only (Remove for Production)
+	console.log("Name Valid : ", isNameValid());
+	console.log("Email Valid : ", isEmailValid());
+	console.log("Activity Valid : ", isActivitySelected());
+	console.log("Credit Card Valid : ", isCreditCardValid());
+	console.log("Zip Valid : ", isZipValid());
+	console.log("CVV Valid : ", isCVVValid());
 });
