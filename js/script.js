@@ -3,9 +3,10 @@
 const form = document.querySelector('form');
 
 // Basic Info Elements
-const inputName = document.getElementById('name');
-const inputEmail = document.getElementById('email');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
 const nameHint = document.getElementById('name-hint');
+const emailErrorHint = document.getElementById('email-hint');
 const selectJobRole = document.getElementById('title');
 const inputOtherJobRole = document.getElementById('other-job-role');
 
@@ -38,7 +39,7 @@ const infoPaypal = document.getElementById('paypal');
 
 window.addEventListener('load', () => {
 	//Set focus on Name field
-	inputName.focus();
+	nameInput.focus();
 	// Hide other job role input
 	inputOtherJobRole.style.visibility = 'hidden';
 	// Disable color selection until after a Design is selected
@@ -49,6 +50,8 @@ window.addEventListener('load', () => {
 	creditCardInfo.style.display = 'block';
 	infoBitcoin.style.display = 'none';
 	infoPaypal.style.display = 'none';
+	// Set max number of characters for Name field to 30
+	emailInput.setAttribute('maxLength', 30);
 	// Set max number of characters for CVV field to 3
 	inputCVV.setAttribute('maxLength', 3);
 	// Set max number of characters for ZIP field to 5
@@ -197,11 +200,11 @@ function activitiesNotValidated(e) {
 // ** NAME VALIDATION ** HELPER FUNCTION
 
 function isNameValid() {
-	const regexName = /\w/i.test(inputName.value);
+	const regexName = /^[a-zA-Z ]{1,30}$/.test(nameInput.value);
 	if (!regexName) {
-		notValidated(inputName);
+		notValidated(nameInput);
 	} else {
-		validated(inputName);
+		validated(nameInput);
 	}
 	return regexName;
 }
@@ -209,13 +212,30 @@ function isNameValid() {
 // ** EMAIL VALIDATION ** HELPER FUNCTION
 
 function isEmailValid() {
-	const regexName = /^[^@]+@[^@]+\.[a-z]+$/i.test(inputEmail.value);
-	if (!regexName) {
-		notValidated(inputEmail);
-	} else {
-		validated(inputEmail);
+	const validated = /^[^@]+@[^@]+\.[a-z]+$/i.test(emailInput.value);
+
+	if (!validated) {
+		emailInput.parentElement.classList.add('not-valid');
+		emailInput.parentElement.classList.remove('valid');
+
+		if (emailInput.value === '') {
+			emailErrorHint.innerHTML = 'A valid email address is required';
+		} else if (!emailInput.value.includes('@')) {
+			emailErrorHint.innerHTML =
+				'An @ symbol is required for a valid email address';
+		} else {
+			emailErrorHint.innerHTML =
+				'Email must be properly formated (i.e user@somewhere.com)';
+		}
+
+		emailErrorHint.style.display = 'block';
+		return validated;
+	} else if (validated) {
+		emailInput.parentElement.classList.add('valid');
+		emailInput.parentElement.classList.remove('not-valid');
+		emailErrorHint.style.display = 'none';
 	}
-	return regexName;
+	return validated;
 }
 
 // ** ACTIVITIES VALIDATION ** HELPER FUNCTION
@@ -240,16 +260,13 @@ function isCreditCardValid() {
 	let isValid = true;
 	const regexName = /^\d{13,16}$/.test(inputCreditCard.value);
 	if (paymentSelect[1].selected === true) {
-		if (!regexName) {
+		if (!regexName || inputCreditCard.value === null) {
 			notValidated(inputCreditCard);
 			isValid = false;
-		} else if (inputCreditCard.value === null) {
-			notValidated(inputCreditCard);
-			isValid = false;
-		} else {
-			validated(inputCreditCard);
-			isValid = true;
 		}
+	} else {
+		validated(inputCreditCard);
+		isValid = true;
 	}
 	return isValid;
 }
@@ -258,25 +275,35 @@ function isCreditCardValid() {
 // Check "Zip Code" field has only 5 digits
 
 function isZipValid() {
+	let isValid = true;
 	const regexZip = /^\d{5}$/.test(inputZip.value);
-	if (!regexZip || inputZip.value === null) {
-		notValidated(inputZip);
-	} else {
-		validated(inputZip);
+	if (paymentSelect[1].selected === true) {
+		if (!regexZip || inputZip.value === null) {
+			notValidated(inputZip);
+			isValid = false;
+		} else {
+			validated(inputZip);
+			isValid = true;
+		}
 	}
-	return regexZip;
+	return isValid;
 }
 
 //** CCV VALIATION ** HELPER FUNCTION */
 // Check "CVV" field has 3 digits
 function isCVVValid() {
+	let isValid = true;
 	const regexCVV = /^\d{3}$/.test(inputCVV.value);
-	if (!regexCVV || inputCVV.value === null) {
-		notValidated(inputCVV);
-	} else {
-		validated(inputCVV);
+	if (paymentSelect[1].selected === true) {
+		if (!regexCVV || inputCVV.value === null) {
+			notValidated(inputCVV);
+			isValid = false;
+		} else {
+			validated(inputCVV);
+			isValid = true;
+		}
 	}
-	return regexCVV;
+	return isValid;
 }
 
 /*****************************************************
@@ -285,13 +312,13 @@ function isCVVValid() {
 
 // Set realtime input validation for NAME
 
-inputName.addEventListener('input', () => {
+nameInput.addEventListener('input', () => {
 	isNameValid();
 });
 
 // Set realtime input validation for EMAIL
 
-inputEmail.addEventListener('input', () => {
+emailInput.addEventListener('input', () => {
 	isEmailValid();
 });
 
