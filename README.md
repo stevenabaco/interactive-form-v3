@@ -28,7 +28,7 @@ The Real time validations included are:
   <li>Name - Is required, can not be empty or have spaces</li>
   <li>Activity - Is required. At least one activity must be selected. Conflicting activities are autimatically disabled as selections are made</li>
   <li>Payment Selection - Form default is Credit Card. Any changes in selection trigger different input boxes to match only the selected option </li>
-<dl>
+<ul>
 Credit Card validation
 <ul>
   <li>Card Number: Is restricted to only numbers and must have at least 13 digits but no more than 16 digits </li>
