@@ -263,11 +263,11 @@ function isCreditCardValid() {
 		if (!regexName || inputCreditCard.value === null) {
 			notValidated(inputCreditCard);
 			isValid = false;
-		}
-	} else {
+		}  else {
 		validated(inputCreditCard);
 		isValid = true;
 	}
+	} 
 	return isValid;
 }
 
