@@ -1,7 +1,7 @@
 # <p align="center"> INTERACTIVE FORM - PROJECT 3</p>
 
-# <p align="center"><a href="https://teamtreehouse.com/techdegree/full-stack-javascript">TREEHOUSE FULL STACK </a> TECHDEGREE 👍 </p>
-
+# <p align="center"><a href="https://teamtreehouse.com/techdegree/full-stack-javascript">TREEHOUSE - FULL STACK </a> TECHDEGREE 👍 </p>
+:
 An interactive form built with vanilla JavaScript. Incorporates custom validation and dynamic hiding and revealing of elements based on input.
 
 ## What does it do?
