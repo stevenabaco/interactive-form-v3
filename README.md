@@ -1,4 +1,5 @@
-# INTERACTIVE FORM - TECHDEGREE PROJECT ( 3 )
+# INTERACTIVE FORM - <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a>JavaScript Techdegree.
+ 
 
 An interactive form built with vanilla JavaScript. Incorporates custom validation and dynamic hiding and revealing of elements based on input.
 
@@ -27,12 +28,12 @@ The Real time validations included are:
   <li>Activity - Is required. At least one activity must be selected. Conflicting activities are autimatically disabled as selections are made</li>
   <li>Payment Selection - Form default is Credit Card. Any changes in selection trigger different input boxes to match only the selected option </li>
 <dl>
-  <dt>Credit Card validation</dt> 
-    <dd>- Card Number - Is restricted to only numbers and must have at least 13 digits but no more than 16 digits </dd>
-    <dd>- Zip Code - Restricted to only numbers and must be only 5 digits</dd>
-    <dd>- CVV - Restricted to only numbers and must be only 3 digits </dd>
-</dl> 
-</ul>
+Credit Card validation
+<ul>
+  <li>Card Number: Is restricted to only numbers and must have at least 13 digits but no more than 16 digits </li>
+  <li>- Zip Code - Restricted to only numbers and must be only 5 digits</li>
+  <li>- CVV - Restricted to only numbers and must be only 3 digits </li>
+</ul> 
 
 ## Languages & Frameworks
 
@@ -43,4 +44,4 @@ The Real time validations included are:
 </ul>
 
 <hl/>
-This project was created as part of the <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a>JavaScript Techdegree.
+This project was created as part of the 
