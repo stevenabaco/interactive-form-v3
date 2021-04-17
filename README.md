@@ -22,14 +22,13 @@ The form incorporates the use of dynamic user input validation. As the user type
 
 A final form validation is executed upon clicking the register button. All inputs must pass the validation tests for the form to submit. IF any fail the page will dynamically show which fields need to be fixed with a hint on what is needed.
 
-**Real time Validations **
+**Real time Validations**
 
 - Name - Is required, can not be empty or have spaces
 - Activity - Is required. At least one activity must be selected. Conflicting activities are autimatically disabled as selections are made
 - Payment Selection - Form default is Credit Card. Any changes in selection trigger different 8input boxes to match only the selected option
 
-<br>
-Credit Card validation
+**Credit Card validations**
 
 - Card Number: Is restricted to only numbers and must have at least 13 digits but no more than 16 digits
 - Zip Code - Restricted to only numbers and must be only 5 digits
@@ -37,7 +36,9 @@ Credit Card validation
 
 As part of the validation, custom error Hints are provided. For example the Email field validation displays the following error hints:
 
-\*If box is empty - 'An @ symbol is required for a valid email address';</li>
+- If box is empty - "A valid email address is required"
+- If there is no @ included - "An @ symbol is required for a valid email address"
+- All other - 'Email must be properly formated /(i.e user@somewhere.com/)'
 
 ## Languages & Frameworks
 
