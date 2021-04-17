@@ -1,5 +1,4 @@
-# INTERACTIVE FORM - <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a>JS Techdegree - PROJECT 3.
- 
+# INTERACTIVE FORM - <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a> TECHDEGREE \* PROJECT 3.
 
 An interactive form built with vanilla JavaScript. Incorporates custom validation and dynamic hiding and revealing of elements based on input.
 
@@ -33,7 +32,7 @@ Credit Card validation
   <li>Card Number: Is restricted to only numbers and must have at least 13 digits but no more than 16 digits </li>
   <li>- Zip Code - Restricted to only numbers and must be only 5 digits</li>
   <li>- CVV - Restricted to only numbers and must be only 3 digits </li>
-</ul> 
+</ul>
 
 ## Languages & Frameworks
 
@@ -44,4 +43,4 @@ Credit Card validation
 </ul>
 
 <hl/>
-This project was created as part of the 
+This project was created as part of the
