@@ -1,6 +1,6 @@
-# <p align="center"> INTERACTIVE FORM </p>
+# <p align="center"> INTERACTIVE FORM - PROJECT 3</p>
 
-# <p align="center"><a href="https://teamtreehouse.com/techdegree/full-stack-javascript">TREEHOUSE FULL STACK </a> TECHDEGREE 👍 PROJECT 3</p>
+# <p align="center"><a href="https://teamtreehouse.com/techdegree/full-stack-javascript">TREEHOUSE FULL STACK </a> TECHDEGREE 👍 </p>
 
 An interactive form built with vanilla JavaScript. Incorporates custom validation and dynamic hiding and revealing of elements based on input.
 
@@ -33,8 +33,8 @@ The Real time validations included are:
 Credit Card validation
 <ul>
   <li>Card Number: Is restricted to only numbers and must have at least 13 digits but no more than 16 digits </li>
-  <li>- Zip Code - Restricted to only numbers and must be only 5 digits</li>
-  <li>- CVV - Restricted to only numbers and must be only 3 digits </li>
+  <li>Zip Code - Restricted to only numbers and must be only 5 digits</li>
+  <li>CVV - Restricted to only numbers and must be only 3 digits </li>
 </ul>
 
 ## Languages & Frameworks
