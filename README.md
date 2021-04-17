@@ -1,5 +1,6 @@
-# <span style= text-align: "center"> INTERACTIVE FOR</span>M
-# <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a> TECHDEGREE \* PROJECT 3.
+# <p align="center"> INTERACTIVE FOR </p>
+
+# <p align="center"><a href="https://teamtreehouse.com/techdegree/full-stack-javascript">TREEHOUSE FULL STACK </a> TECHDEGREE 👍 PROJECT 3</p>
 
 An interactive form built with vanilla JavaScript. Incorporates custom validation and dynamic hiding and revealing of elements based on input.
 
