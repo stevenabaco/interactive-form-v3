@@ -28,7 +28,7 @@ The Real time validations included are:
   <li>Name - Is required, can not be empty or have spaces</li>
   <li>Activity - Is required. At least one activity must be selected. Conflicting activities are autimatically disabled as selections are made</li>
   <li>Payment Selection - Form default is Credit Card. Any changes in selection trigger different input boxes to match only the selected option </li>
-<ul>
+</ul>
 <br>
 Credit Card validation
 <ul>
@@ -45,5 +45,3 @@ Credit Card validation
   <li>JAVASCRIPT</li>
 </ul>
 
-<hl/>
-This project was created as part of the
