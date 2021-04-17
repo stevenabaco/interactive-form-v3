@@ -1,4 +1,4 @@
-# <p align="center"> INTERACTIVE FOR </p>
+# <p align="center"> INTERACTIVE FORM </p>
 
 # <p align="center"><a href="https://teamtreehouse.com/techdegree/full-stack-javascript">TREEHOUSE FULL STACK </a> TECHDEGREE 👍 PROJECT 3</p>
 
