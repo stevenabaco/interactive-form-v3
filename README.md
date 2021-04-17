@@ -1,4 +1,4 @@
-# INTERACTIVE FORM - <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a>JavaScript Techdegree.
+# INTERACTIVE FORM - <a href="https://teamtreehouse.com/techdegree/full-stack-javascript">Treehouse Full Stack </a>JS Techdegree - PROJECT 3.
  
 
 An interactive form built with vanilla JavaScript. Incorporates custom validation and dynamic hiding and revealing of elements based on input.
